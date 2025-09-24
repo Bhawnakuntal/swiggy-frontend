@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Swiggy Clone - Menu</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="restaurants.html" class="nav-link">Restaurants</a>
+    <a href="cart.html" class="nav-link">Cart</a>
+    <a href="login.html" class="nav-link">Login</a>
+    <a href="signup.html" class="nav-link">Signup</a>
+  </nav>
+
+  <div class="menu-container">
+    <h2>Menu Items</h2>
+
+    <div class="menu-item">
+      <h3>Margherita Pizza</h3>
+      <p>Classic cheese pizza with fresh basil and tomato sauce.</p>
+      <span>$10</span>
+      <button onclick="addToCart('Margherita Pizza', 10)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <h3>Paneer Butter Masala</h3>
+      <p>Soft paneer cubes in a creamy tomato gravy with spices.</p>
+      <span>$8</span>
+      <button onclick="addToCart('Paneer Butter Masala', 8)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <h3>Fried Rice</h3>
+      <p>Stir-fried rice with vegetables and a touch of soy sauce.</p>
+      <span>$7</span>
+      <button onclick="addToCart('Fried Rice', 7)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <h3>Chicken Manchurian</h3>
+      <p>Crispy chicken balls in a spicy and tangy sauce.</p>
+      <span>$12</span>
+      <button onclick="addToCart('Chicken Manchurian', 12)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <h3>Chocolate Cake</h3>
+      <p>Rich and moist chocolate layered cake topped with icing.</p>
+      <span>$6</span>
+      <button onclick="addToCart('Chocolate Cake', 6)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <h3>Grilled Chicken Salad</h3>
+      <p>Healthy salad with grilled chicken, lettuce, and vinaigrette dressing.</p>
+      <span>$9</span>
+      <button onclick="addToCart('Grilled Chicken Salad', 9)">Add to Cart</button>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

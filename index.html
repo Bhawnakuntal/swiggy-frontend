@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Swiggy Clone</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Button to open drawer */
+    .open-btn {
+      margin: 40px;
+      padding: 12px 20px;
+      background: #ff5200;
+      border: none;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    /* Overlay (dark background) */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      z-index: 99;
+    }
+
+    /* Drawer */
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: -400px; /* hidden */
+      width: 400px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+      transform: translateX(100%); /* start off screen */
+      z-index: 100;
+      padding: 20px 30px;
+      overflow-y: auto;
+    }
+
+    /* When visible */
+    .drawer.show {
+      transform: translateX(0);
+      right: 0;
+    }
+
+    /* Close button */
+    .close-btn {
+      font-size: 28px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: #333;
+    }
+
+    /* Header */
+    .header {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .header h2 {
+      margin: 10px 0 0;
+      font-size: 26px;
+      font-weight: 600;
+    }
+    .header .sub {
+      font-size: 14px;
+      color: #666;
+    }
+    .header .sub a {
+      color: #ff5200;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .header .underline {
+      margin-top: 8px;
+      width: 40px;
+      height: 2px;
+      background: #000;
+    }
+    .food-icon {
+      position: absolute;
+      top: 0;
+      padding-bottom:2900px;
+      right: 0;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+    }
+
+    /* Form */
+    .login-form {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .login-form input {
+      padding: 14px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    .login-form input:focus {
+      border-color: #ff5200;
+      outline: none;
+    }
+    .login-btn , .continue-btn {
+      padding: 14px;
+      background: #ff5200;
+      color: #fff;
+      border: none;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    /* Terms */
+    .terms {
+      font-size: 12px;
+      color: #444;
+      margin-top: 18px;
+    }
+    .terms a {
+      font-weight: 600;
+      color: #000;
+      text-decoration: none;
+    }
+
+  </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROrZ_Ic8urcz6p5X0brpH2qP4Au6rk7Qx-3g&s" alt="Swiggy logo" style="height: 55px; border-radius: 20%;">
+            </a>
+            <!-- <a href="other.html" style="left: 100px;">Other</a> -->
+            <div class="nav-links">
+               
+                <a href="Swiggy-Corporate.html"><i class="fa-solid fa-briefcase"></i> Swiggy Corporate</a>
+                <a href="search.html" ><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+                <a href="Offers.html"><i class="fa-solid fa-percent"></i> Offers</a>
+                <a href="help.html"><i class="fa-brands fa-chrome"></i> Help</a>
+                <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+                <a href="#" id="loginBtn" class="nav-link"><i class="fa-solid fa-user"></i> Sign In</a>
+                
+            </div>
+            
+        </div>
+        
+    </nav>
+
+
+  <div class="container">
+
+  <section class="food-categories">
+    <h2>What's on your mind?</h2>
+  
+    <!-- Carousel wrapper -->
+    <div class="carousel">
+      <button class="prev">&#10094;</button>
+    
+      <div class="categories">
+        <div class="category-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjqbKi2fKW_kmp6oV5UnUhhOh4nJctCcwsXQgXebsV2UQXKM7p7h1RWOg&s" alt="Biryani" />
+          <p>Biryani</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1414575281/photo/a-delicious-and-tasty-italian-pizza-margherita-with-tomatoes-and-buffalo-mozzarella.webp?a=1&b=1&s=612x612&w=0&k=20&c=qO_TA5oZTY4d1e14l6noMYmAB26sSoE8L0m_VYl2bcU=" alt="Pizza" />
+          <p>Pizza</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1220187582/photo/stuffed-dal-paratha-with-curd-pickle-and-white-butter.webp?a=1&b=1&s=612x612&w=0&k=20&c=GMQV0wdrJByEnExw1LXwnmB0mhm-BRoSzz6HcUBm1tg=" alt="Paratha" />
+          <p>Paratha</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/979914742/photo/chole-bhature-or-chick-pea-curry-and-fried-puri-served-in-terracotta-crockery-over-white.webp?a=1&b=1&s=612x612&w=0&k=20&c=8pmBVIcNb-GIFnsBT0sYqfy-YtzNq7pOqc6lQZgFOPo=" alt="Chole Bhature" />
+          <p>Chole Bhature</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1188000786/photo/gulab-jamun-in-bowl-on-wooden-background-indian-dessert-or-sweet-dish.webp?a=1&b=1&s=612x612&w=0&k=20&c=4kVDa_BP4pypOSvfDSL2mmLNO3SYdoAs1VG-qi4WAtI=" alt="Gulab Jamun" />
+          <p>Gulab Jamun</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1166678093/photo/spaghetti-with-tomato-sauce-shot-on-rustic-wooden-table.webp?a=1&b=1&s=612x612&w=0&k=20&c=erpXXws4jgkKoywObeqOWAltGLdI8FMWsLBB1tHdTyk=" alt="Noodles" />
+          <p>Noodles</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1341504203/photo/fried-momos-dumpling.webp?a=1&b=1&s=612x612&w=0&k=20&c=mtHAwF3TH997DT_4gJ-hgECmJ-uVhAQvFAsxIEulrSI=" alt="Chinese" />
+          <p>Chinese</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/979914742/photo/chole-bhature-or-chick-pea-curry-and-fried-puri-served-in-terracotta-crockery-over-white.webp?a=1&b=1&s=612x612&w=0&k=20&c=8pmBVIcNb-GIFnsBT0sYqfy-YtzNq7pOqc6lQZgFOPo=" alt="Chole Bhature" />
+          <p>Chole Bhature</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1188000786/photo/gulab-jamun-in-bowl-on-wooden-background-indian-dessert-or-sweet-dish.webp?a=1&b=1&s=612x612&w=0&k=20&c=4kVDa_BP4pypOSvfDSL2mmLNO3SYdoAs1VG-qi4WAtI=" alt="Gulab Jamun" />
+          <p>Gulab Jamun</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1166678093/photo/spaghetti-with-tomato-sauce-shot-on-rustic-wooden-table.webp?a=1&b=1&s=612x612&w=0&k=20&c=erpXXws4jgkKoywObeqOWAltGLdI8FMWsLBB1tHdTyk=" alt="Noodles" />
+          <p>Noodles</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1341504203/photo/fried-momos-dumpling.webp?a=1&b=1&s=612x612&w=0&k=20&c=mtHAwF3TH997DT_4gJ-hgECmJ-uVhAQvFAsxIEulrSI=" alt="Chinese" />
+          <p>Chinese</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/979914742/photo/chole-bhature-or-chick-pea-curry-and-fried-puri-served-in-terracotta-crockery-over-white.webp?a=1&b=1&s=612x612&w=0&k=20&c=8pmBVIcNb-GIFnsBT0sYqfy-YtzNq7pOqc6lQZgFOPo=" alt="Chole Bhature" />
+          <p>Chole Bhature</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1188000786/photo/gulab-jamun-in-bowl-on-wooden-background-indian-dessert-or-sweet-dish.webp?a=1&b=1&s=612x612&w=0&k=20&c=4kVDa_BP4pypOSvfDSL2mmLNO3SYdoAs1VG-qi4WAtI=" alt="Gulab Jamun" />
+          <p>Gulab Jamun</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1166678093/photo/spaghetti-with-tomato-sauce-shot-on-rustic-wooden-table.webp?a=1&b=1&s=612x612&w=0&k=20&c=erpXXws4jgkKoywObeqOWAltGLdI8FMWsLBB1tHdTyk=" alt="Noodles" />
+          <p>Noodles</p>
+        </div>
+        <div class="category-card">
+          <img src="https://media.istockphoto.com/id/1341504203/photo/fried-momos-dumpling.webp?a=1&b=1&s=612x612&w=0&k=20&c=mtHAwF3TH997DT_4gJ-hgECmJ-uVhAQvFAsxIEulrSI=" alt="Chinese" />
+          <p>Chinese</p>
+        </div>
+      </div>
+    
+      <button class="next">&#10095;</button>
+    </div>
+  </section>
+
+
+
+    <section class="top-restaurants">
+      <h2>Top restaurant chains in your city</h2>
+      <div class="restaurant-cards">
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/1089069690/photo/indian-chicken-tikka-biriyani-served-in-a-bowl-with-yogurt-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=ptKkFi5YrshGvybmCd5dj8n4u8gVLG4L54PLKP6dP1A=" alt="Adil Hotel"/>
+          <div class="info">
+            <h3>Adil Hotel</h3>
+            <p>4.4 ★ • 40-50 mins</p>
+            <p>Biryani, Tandoor</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/1144501138/photo/manchurian-hakka-schezwan-noodles-popular-indochinese-food-served-in-a-bowl-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=3A2uO-FPzPMWxRxUaoPY0pOdzEGyd6s-zE_r8h_3MEE=" alt="Hotel Sai Nath"/>
+          <div class="info">
+            <h3>Hotel Sai Nath</h3>
+            <p>4.2 ★ • 40-50 mins</p>
+            <p>North Indian, Chinese</p>
+            <p class="offer">₹175 OFF ABOVE ₹699</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://images.unsplash.com/photo-1680968167367-5c752b140e7d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNoaW5lZXNlJTIwZm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D" alt="Dev International"/>
+          <div class="info">
+            <h3>Dev International</h3>
+            <p>4.3 ★ • 60-70 mins</p>
+            <p>Chinese, Fast Food</p>
+            <p class="offer">₹100 OFF ABOVE ₹299</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/157472912/photo/ice-cream-composition-on-a-bowl.webp?a=1&b=1&s=612x612&w=0&k=20&c=e1yPCusQJl2scx955yuv9LUcbx5e7OcARC_VgEDdz5Y=" alt="Bakery World"/>
+          <div class="info">
+            <h3>Bakery World</h3>
+            <p>4.3 ★ • 45-55 mins</p>
+            <p>Bakery, Ice Cream</p>
+            <p class="offer">ITEMS AT ₹99</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/1089069690/photo/indian-chicken-tikka-biriyani-served-in-a-bowl-with-yogurt-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=ptKkFi5YrshGvybmCd5dj8n4u8gVLG4L54PLKP6dP1A=" alt="Adil Hotel"/>
+          <div class="info">
+            <h3>Adil Hotel</h3>
+            <p>4.4 ★ • 40-50 mins</p>
+            <p>Biryani, Tandoor</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/1144501138/photo/manchurian-hakka-aschezwan-noodles-popular-indochinese-food-served-in-a-bowl-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=3A2uO-FPzPMWxRxUaoPY0pOdzEGyd6s-zE_r8h_3MEE=" alt="Hotel Sai Nath"/>
+          <div class="info">
+            <h3>Hotel Sai Nath</h3>
+            <p>4.2 ★ • 40-50 mins</p>
+            <p>North Indian, Chinese</p>
+            <p class="offer">₹175 OFF ABOVE ₹699</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://images.unsplash.com/photo-1680968167367-5c752b140e7d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNoaW5lZXNlJTIwZm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D" alt="Dev International"/>
+          <div class="info">
+            <h3>Dev International</h3>
+            <p>4.3 ★ • 60-70 mins</p>
+            <p>Chinese, Fast Food</p>
+            <p class="offer">₹100 OFF ABOVE ₹299</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/157472912/photo/ice-cream-composition-on-a-bowl.webp?a=1&b=1&s=612x612&w=0&k=20&c=e1yPCusQJl2scx955yuv9LUcbx5e7OcARC_VgEDdz5Y=" alt="Bakery World"/>
+          <div class="info">
+            <h3>Bakery World</h3>
+            <p>4.3 ★ • 45-55 mins</p>
+            <p>Bakery, Ice Cream</p>
+            <p class="offer">ITEMS AT ₹99</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/1089069690/photo/indian-chicken-tikka-biriyani-served-in-a-bowl-with-yogurt-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=ptKkFi5YrshGvybmCd5dj8n4u8gVLG4L54PLKP6dP1A=" alt="Adil Hotel"/>
+          <div class="info">
+            <h3>Adil Hotel</h3>
+            <p>4.4 ★ • 40-50 mins</p>
+            <p>Biryani, Tandoor</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/1144501138/photo/manchurian-hakka-schezwan-noodles-popular-indochinese-food-served-in-a-bowl-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=3A2uO-FPzPMWxRxUaoPY0pOdzEGyd6s-zE_r8h_3MEE=" alt="Hotel Sai Nath"/>
+          <div class="info">
+            <h3>Hotel Sai Nath</h3>
+            <p>4.2 ★ • 40-50 mins</p>
+            <p>North Indian, Chinese</p>
+            <p class="offer">₹175 OFF ABOVE ₹699</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://images.unsplash.com/photo-1680968167367-5c752b140e7d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNoaW5lZXNlJTIwZm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D" alt="Dev International"/>
+          <div class="info">
+            <h3>Dev International</h3>
+            <p>4.3 ★ • 60-70 mins</p>
+            <p>Chinese, Fast Food</p>
+            <p class="offer">₹100 OFF ABOVE ₹299</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/157472912/photo/ice-cream-composition-on-a-bowl.webp?a=1&b=1&s=612x612&w=0&k=20&c=e1yPCusQJl2scx955yuv9LUcbx5e7OcARC_VgEDdz5Y=" alt="Bakery World"/>
+          <div class="info">
+            <h3>Bakery World</h3>
+            <p>4.3 ★ • 45-55 mins</p>
+            <p>Bakery, Ice Cream</p>
+            <p class="offer">ITEMS AT ₹99</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/1089069690/photo/indian-chicken-tikka-biriyani-served-in-a-bowl-with-yogurt-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=ptKkFi5YrshGvybmCd5dj8n4u8gVLG4L54PLKP6dP1A=" alt="Adil Hotel"/>
+          <div class="info">
+            <h3>Adil Hotel</h3>
+            <p>4.4 ★ • 40-50 mins</p>
+            <p>Biryani, Tandoor</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/1144501138/photo/manchurian-hakka-schezwan-noodles-popular-indochinese-food-served-in-a-bowl-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=3A2uO-FPzPMWxRxUaoPY0pOdzEGyd6s-zE_r8h_3MEE=" alt="Hotel Sai Nath"/>
+          <div class="info">
+            <h3>Hotel Sai Nath</h3>
+            <p>4.2 ★ • 40-50 mins</p>
+            <p>North Indian, Chinese</p>
+            <p class="offer">₹175 OFF ABOVE ₹699</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://images.unsplash.com/photo-1680968167367-5c752b140e7d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNoaW5lZXNlJTIwZm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D" alt="Dev International"/>
+          <div class="info">
+            <h3>Dev International</h3>
+            <p>4.3 ★ • 60-70 mins</p>
+            <p>Chinese, Fast Food</p>
+            <p class="offer">₹100 OFF ABOVE ₹299</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/157472912/photo/ice-cream-composition-on-a-bowl.webp?a=1&b=1&s=612x612&w=0&k=20&c=e1yPCusQJl2scx955yuv9LUcbx5e7OcARC_VgEDdz5Y=" alt="Bakery World"/>
+          <div class="info">
+            <h3>Bakery World</h3>
+            <p>4.3 ★ • 45-55 mins</p>
+            <p>Bakery, Ice Cream</p>
+            <p class="offer">ITEMS AT ₹99</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/1089069690/photo/indian-chicken-tikka-biriyani-served-in-a-bowl-with-yogurt-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=ptKkFi5YrshGvybmCd5dj8n4u8gVLG4L54PLKP6dP1A=" alt="Adil Hotel"/>
+          <div class="info">
+            <h3>Adil Hotel</h3>
+            <p>4.4 ★ • 40-50 mins</p>
+            <p>Biryani, Tandoor</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/1144501138/photo/manchurian-hakka-schezwan-noodles-popular-indochinese-food-served-in-a-bowl-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=3A2uO-FPzPMWxRxUaoPY0pOdzEGyd6s-zE_r8h_3MEE=" alt="Hotel Sai Nath"/>
+          <div class="info">
+            <h3>Hotel Sai Nath</h3>
+            <p>4.2 ★ • 40-50 mins</p>
+            <p>North Indian, Chinese</p>
+            <p class="offer">₹175 OFF ABOVE ₹699</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://images.unsplash.com/photo-1680968167367-5c752b140e7d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNoaW5lZXNlJTIwZm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D" alt="Dev International"/>
+          <div class="info">
+            <h3>Dev International</h3>
+            <p>4.3 ★ • 60-70 mins</p>
+            <p>Chinese, Fast Food</p>
+            <p class="offer">₹100 OFF ABOVE ₹299</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <img src="https://media.istockphoto.com/id/157472912/photo/ice-cream-composition-on-a-bowl.webp?a=1&b=1&s=612x612&w=0&k=20&c=e1yPCusQJl2scx955yuv9LUcbx5e7OcARC_VgEDdz5Y=" alt="Bakery World"/>
+          <div class="info">
+            <h3>Bakery World</h3>
+            <p>4.3 ★ • 45-55 mins</p>
+            <p>Bakery, Ice Cream</p>
+            <p class="offer">ITEMS AT ₹99</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+
+  <!-- Overlay -->
+  <div id="overlay" class="overlay"></div>
+
+  <!-- Right Drawer Login -->
+  <div id="loginDrawer" class="drawer">
+  <button class="close-btn" id="closeLogin">&times;</button> <!-- fixed id -->
+  <div class="drawer-content">
+    <div class="header">
+      <h2>Login</h2>
+      <span class="sub">or <a href="#" id="openSignup">create an account</a></span> <!-- added id -->
+      <div class="underline"></div>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMaMTGcUyty8eAog1lAK7JtypBWYBPvgr4TQ&s" alt="food" class="food-icon" />
+    </div>
+
+      <form class="login-form">
+        <input type="text" placeholder="Phone number" maxlength="10" required />
+        <button type="submit" class="login-btn">LOGIN</button>
+      </form>
+
+      <p class="terms">
+        By clicking on Login, I accept the
+        <a href="#">Terms & Conditions</a> & <a href="#">Privacy Policy</a>
+      </p>
+    </div>
+  </div>
+ 
+  <!-- signup drawer -->
+  <div id="signupDrawer" class="drawer">
+    <button class="close-btn" id="closeSignup">&times;</button>
+    <div class="drawer-content">
+      <div class="header">
+        <h2>Sign up</h2>
+        <span class="sub">or <a href="#" id="backToLogin">login to your account</a></span>
+        <div class="underline"></div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMaMTGcUyty8eAog1lAK7JtypBWYBPvgr4TQ&s" alt="food" class="food-icon" />
+      </div>
+
+      <form class="login-form">
+        <input type="text" placeholder="Phone number" />
+        <input type="text" placeholder="Name" />
+        <input type="email" placeholder="Email" />
+        <input type="text" placeholder="Have a referral code?" />
+        <button type="submit" class="continue-btn">CONTINUE</button>
+      </form>
+
+      <p class="terms">
+        By creating an account, I accept the
+        <a href="#">Terms & Conditions</a> & <a href="#">Privacy Policy</a>
+      </p>
+    </div>
+  </div>
+  
+
+  <script>
+    const signInBtn = document.getElementById("loginBtn");
+    const overlay = document.getElementById("overlay");
+
+    const backToLogin = document.getElementById("backToLogin");
+    const signupDrawer = document.getElementById("signupDrawer");
+
+    const closeLogin = document.getElementById("closeLogin");
+    const closeSignup = document.getElementById("closeSignup");
+
+    const openSignup = document.getElementById("openSignup");
+    const openLoginBtn = document.getElementById("openLoginBtn");
+
+    // Open Login Drawer
+    signInBtn.addEventListener("click", () => {
+      loginDrawer.classList.add("show");
+      overlay.style.display = "block";
+    });
+
+    // Close Login Drawer
+    closeLogin.addEventListener("click", () => {
+      loginDrawer.classList.remove("show");
+      overlay.style.display = "none";
+    });
+
+    // Close Signup Drawer
+    closeSignup.addEventListener("click", () => {
+      signupDrawer.classList.remove("show");
+      overlay.style.display = "none";
+    });
+
+    // Switch to Signup
+    openSignup.addEventListener("click", (e) => {
+      e.preventDefault();
+      
+      signupDrawer.classList.add("show");
+    });
+
+    // Switch to Login
+    backToLogin.addEventListener("click", (e) => {
+      e.preventDefault();
+      signupDrawer.classList.remove("show");
+      loginDrawer.classList.add("show");
+    });
+
+  // Close both if overlay clicked
+    overlay.addEventListener("click", () => {
+      loginDrawer.classList.remove("show");
+      signupDrawer.classList.remove("show");
+      overlay.style.display = "none";
+    });
+    TouchEvent
+  </script> 
+  <script src="js/script.js"></script>
+</body>
+</html>
+
